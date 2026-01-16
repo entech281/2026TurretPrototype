@@ -3,9 +3,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.CommandFactory;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.SubsystemManager;
 import frc.robot.path.Position;
 
@@ -17,7 +15,6 @@ public class OperatorInterface {
     private JoystickButtonManager joystickManager;
     private JoystickButtonManager operatorPanelManager;
     private SubsystemManager subsystemManager;
-    private DriveSubsystem drive;
     private CommandFactory commandFactory;
 
     public OperatorInterface(final SubsystemManager subMan) {
@@ -99,8 +96,6 @@ public class OperatorInterface {
                 .add();
 
 
-        drive = subsystemManager.getDriveSubsystem();
-
 
         //joystickManager.addButton(RobotConstants.BUTTONS.OUTAKE)
         //        .whenPressed(commandFactory.reverse())
@@ -128,7 +123,6 @@ public class OperatorInterface {
                 .whenPressed(commandFactory.hoodHomeCommand())
                 .add();
 
-        drive.setDefaultCommand ( new TankDriveCommand(drive,driveStick) );
         //drive.setDefaultCommand(new ToggleDriveCurvatureCommand(drive, driveStick,
         //        new JoystickButton(driveStick,RobotConstants.JOYSTICK_BUTTONS.CURVATURE_DRIVE_PIVOT)));
 
