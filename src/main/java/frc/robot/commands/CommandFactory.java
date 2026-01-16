@@ -34,9 +34,9 @@ public class CommandFactory {
         this.sm = subsystemManager;
     }
 
-    public Command autonomousReplayPathCommand() {
-        return new StartDriveReplayCommand(sm.getDriveSubsystem());
-    }
+    // public Command autonomousReplayPathCommand() {
+    //     return new StartDriveReplayCommand(sm.getDriveSubsystem());
+    // }
 
     // ********** START OF ELEVATOR AND INTAKE COMMANDS
 
@@ -48,31 +48,31 @@ public class CommandFactory {
         return new IntakeRaiseCommand(sm.getIntakeSubsystem());
     }
 
-    public Command elevatorUp() {
-        return new ElevatorUpCommand(sm.getElevatorSubsystem());
-    }
+    // public Command elevatorUp() {
+    //     return new ElevatorUpCommand(sm.getElevatorSubsystem());
+    // }
 
-    public Command elevatorDown() {
-        return new ElevatorDownCommand(sm.getElevatorSubsystem());
-    }
+    // public Command elevatorDown() {
+    //     return new ElevatorDownCommand(sm.getElevatorSubsystem());
+    // }
 
-    public Command elevatorStop() {
-        return new ElevatorStopCommand(sm.getElevatorSubsystem());
-    }
+    // public Command elevatorStop() {
+    //     return new ElevatorStopCommand(sm.getElevatorSubsystem());
+    // }
 
-    public Command startAutoBallGather() {
-        return new ParallelCommandGroup(
-            new IntakeDeployCommand(sm.getIntakeSubsystem()),
-            new ElevatorAutoPickupOnCommand(sm.getElevatorSubsystem())
-        );
-    }
+    // public Command startAutoBallGather() {
+    //     return new ParallelCommandGroup(
+    //         new IntakeDeployCommand(sm.getIntakeSubsystem()),
+    //         new ElevatorAutoPickupOnCommand(sm.getElevatorSubsystem())
+    //     );
+    // }
 
-    public Command stopAutoBallGather() {
-        return new ParallelCommandGroup(
-            raiseAndStopIntake(),
-            elevatorStop()
-        );
-    }
+    // public Command stopAutoBallGather() {
+    //     return new ParallelCommandGroup(
+    //         raiseAndStopIntake(),
+    //         elevatorStop()
+    //     );
+    // }
     // ********** END OF ELEVATOR AND INTAKE COMMANDS
 
     public Command snapToTargetVision(){
@@ -84,7 +84,8 @@ public class CommandFactory {
     }
 
     public Command zeroYawOfNavX(boolean inverted){
-        return new InstantCommand ( () -> sm.getNavXSubsystem().zeroYawMethod(inverted));
+        // NavX removed from reduced project; return a no-op command instead.
+        return new InstantCommand (() -> {});
     }
 
     public Command doNothing(){
@@ -92,55 +93,55 @@ public class CommandFactory {
     }
 
     //66.91 inches
-    public Command simpleForwardShoot3Auto(){
-        return new SequentialCommandGroup(
-                zeroYawOfNavX(false),
-                new ParallelCommandGroup(
-                        driveForwardSpeedMode(126.0, 0.75).withTimeout(5),
-                        startShooter(),
-                        hoodUpAgainstTargetPreset()
-                ),
-                fireCommand(),
-                new WaitCommand(3),
-                new ParallelCommandGroup(
-                        elevatorStop(),
-                        stopShooter())
-        );
-    }
+    // public Command simpleForwardShoot3Auto(){
+    //     return new SequentialCommandGroup(
+    //             zeroYawOfNavX(false),
+    //             new ParallelCommandGroup(
+    //                     driveForwardSpeedMode(126.0, 0.75).withTimeout(5),
+    //                     startShooter(),
+    //                     hoodUpAgainstTargetPreset()
+    //             ),
+    //             fireCommand(),
+    //             new WaitCommand(3),
+    //             new ParallelCommandGroup(
+    //                     elevatorStop(),
+    //                     stopShooter())
+    //     );
+    // }
 
-    public Command driveForward(double inches){
-        return new DriveToPositionCommand(sm.getDriveSubsystem(), inches);
-    }
+    // public Command driveForward(double inches){
+    //     return new DriveToPositionCommand(sm.getDriveSubsystem(), inches);
+    // }
 
-    public Command driveForward(Position position){
-        return new DriveToPositionCommand(sm.getDriveSubsystem(), position);
-    }
-
-
-    public Command driveForwardSpeedMode(double distance){
-        return new DriveDistancePIDCommand(sm.getDriveSubsystem(), distance);
-    }
-
-    public Command driveForwardSpeedMode(double distance, double speed){
-        return new DriveDistancePIDCommand(sm.getDriveSubsystem(), distance, speed);
-    }
+    // public Command driveForward(Position position){
+    //     return new DriveToPositionCommand(sm.getDriveSubsystem(), position);
+    // }
 
 
-    public Command turnRight(double degrees){
-        return new SnapToYawCommand(sm.getDriveSubsystem(), degrees, true, sm);
-    }
+    // public Command driveForwardSpeedMode(double distance){
+    //     return new DriveDistancePIDCommand(sm.getDriveSubsystem(), distance);
+    // }
 
-    public Command turnLeft(double degrees){
-        return new SnapToYawCommand(sm.getDriveSubsystem(), -degrees, true, sm);
-    }
+    // public Command driveForwardSpeedMode(double distance, double speed){
+    //     return new DriveDistancePIDCommand(sm.getDriveSubsystem(), distance, speed);
+    // }
 
-    public Command turnToDirection(double degrees){
-        return new SnapToYawCommand(sm.getDriveSubsystem(), degrees, false, sm);
-    }
 
-    public Command stopDriving(){
-        return new InstantCommand(() -> sm.getDriveSubsystem().stopDriving(), sm.getDriveSubsystem());
-    }
+    // public Command turnRight(double degrees){
+    //     return new SnapToYawCommand(sm.getDriveSubsystem(), degrees, true, sm);
+    // }
+
+    // public Command turnLeft(double degrees){
+    //     return new SnapToYawCommand(sm.getDriveSubsystem(), -degrees, true, sm);
+    // }
+
+    // public Command turnToDirection(double degrees){
+    //     return new SnapToYawCommand(sm.getDriveSubsystem(), degrees, false, sm);
+    // }
+
+    // public Command stopDriving(){
+    //     return new InstantCommand(() -> sm.getDriveSubsystem().stopDriving(), sm.getDriveSubsystem());
+    // }
 
     public Command snapAndShootCommand(){
         return snapToVisionTargetCommand()
@@ -149,31 +150,31 @@ public class CommandFactory {
     public Command snapToVisionTargetCommand(){
         return new SnapToVisionTargetCommand(sm.getTurretSubsystem(),sm);
     }
-    public Command snapToYawCommand(double desiredAngle, boolean relative){
-        return new SnapToYawCommand(sm.getDriveSubsystem(),  desiredAngle,  relative, sm );
-    }
+    // public Command snapToYawCommand(double desiredAngle, boolean relative){
+    //     return new SnapToYawCommand(sm.getDriveSubsystem(),  desiredAngle,  relative, sm );
+    // }
 
 
     public Command hoodAdjustToAngleCommand(double angle){
         return new InstantCommand ( () -> sm.getHoodSubsystem().setHoodPosition(angle) , sm.getHoodSubsystem());
     }
 
-    public Command toggleBrakeModeCommand(){
-        return new ToggleBrakeModeCommand(sm.getDriveSubsystem());
-    }
+    // public Command toggleBrakeModeCommand(){
+    //     return new ToggleBrakeModeCommand(sm.getDriveSubsystem());
+    // }
 
-    public Command toggleCurvatureDriveCommand(){
-        return new ToggleCurvatureDriveCommand(sm.getDriveSubsystem());
-    }
-    public Command startDriveLogging() {
-        return new StartDriveLoggingCommand(sm.getDriveSubsystem());
-    }
-    public Command endDriveLogging() {
-        return new EndDriveLoggingCommand(sm.getDriveSubsystem());
-    }
-    public Command startDriveReplay() {
-        return new StartDriveReplayCommand(sm.getDriveSubsystem());
-    }
+    // public Command toggleCurvatureDriveCommand(){
+    //     return new ToggleCurvatureDriveCommand(sm.getDriveSubsystem());
+    // }
+    // public Command startDriveLogging() {
+    //     return new StartDriveLoggingCommand(sm.getDriveSubsystem());
+    // }
+    // public Command endDriveLogging() {
+    //     return new EndDriveLoggingCommand(sm.getDriveSubsystem());
+    // }
+    // public Command startDriveReplay() {
+    //     return new StartDriveReplayCommand(sm.getDriveSubsystem());
+    // }
 
     public Command fireCommand(){
         return new SequentialCommandGroup(

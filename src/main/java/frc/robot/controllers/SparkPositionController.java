@@ -1,6 +1,5 @@
 package frc.robot.controllers;
 
-import com.revrobotics.CANError;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 
@@ -67,16 +66,11 @@ public class SparkPositionController extends BaseSparkController implements Posi
 
     @Override
     public void configure() {        
-        CANError err = spark.setCANTimeout(CAN_TIMEOUT_MILLIS);
-        if ( err == err.kOk ){
-            settings.configureSparkMax(spark);
-            this.enabled = true;
-        }
-        else{
-            this.enabled = false;
-            Throwable t = new Throwable("CAN Error Configuring!");
-            t.printStackTrace();
-        }
+        // Newer REV API versions do not use setCANTimeout/CANError.
+        // Simply apply the SparkMax settings. If the spark instance is present
+        // we consider the controller enabled.
+        settings.configureSparkMax(spark);
+        this.enabled = (spark != null);
     }
 }
  

@@ -8,7 +8,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import frc.robot.fake.TalonAdapter;
 import frc.robot.RobotConstants;
 import frc.robot.controllers.TalonPositionController;
 import frc.robot.utils.ClampedDouble;
@@ -19,7 +19,7 @@ import frc.robot.utils.ClampedDouble;
  */
 public class HoodSubsystem extends EntechSubsystem {
 
-    private WPI_TalonSRX hoodMotor;
+    private TalonAdapter hoodMotor;
     private TalonPositionController hoodMotorController;
     public static final double HOOD_TOLERANCE_COUNTS = 50;
     // MCA: How were these presets found and are they wrong if the robot starts away from the limit switches?
@@ -36,9 +36,9 @@ public class HoodSubsystem extends EntechSubsystem {
 
     @Override
     public void initialize() {
-        hoodMotor = new WPI_TalonSRX(RobotConstants.CAN.HOOD_MOTOR);
+    hoodMotor = new TalonAdapter(RobotConstants.CAN.HOOD_MOTOR);
 
-        hoodMotorController = new TalonPositionController(hoodMotor, frc.robot.RobotConstants.MOTOR_SETTINGS.HOOD, true);
+    hoodMotorController = new TalonPositionController(hoodMotor, frc.robot.RobotConstants.MOTOR_SETTINGS.HOOD, true);
         hoodMotorController.configure();
 
         hoodMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen, 0);

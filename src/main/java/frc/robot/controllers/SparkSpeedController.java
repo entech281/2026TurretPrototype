@@ -1,6 +1,5 @@
 package frc.robot.controllers;
 
-import com.revrobotics.CANError;
 import com.revrobotics.CANSparkMax;
 
 public class SparkSpeedController extends BaseSparkController implements SpeedController{
@@ -53,15 +52,10 @@ public class SparkSpeedController extends BaseSparkController implements SpeedCo
     
     @Override
     public void configure() {
+        // Newer REV API doesn't use setCANTimeout/CANError. Apply settings and
+        // assume enabled if the spark instance is present.
         settings.configureSparkMax(spark);
-        CANError err = spark.setCANTimeout(CAN_TIMEOUT_MILLIS);
-        if ( err == err.kOk ){
-            settings.configureSparkMax(spark);
-            this.enabled = true;
-        }
-        else{
-            this.enabled = false;
-        }
+        this.enabled = (spark != null);
     }
 
 

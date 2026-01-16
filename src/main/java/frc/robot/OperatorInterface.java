@@ -41,8 +41,9 @@ public class OperatorInterface {
                 .add();
 
         operatorPanelManager.addButton(RobotConstants.BUTTONS.DEPLOY_INTAKE)
-                 .whenPressed(commandFactory.startAutoBallGather())
-                 .whenReleased(commandFactory.stopAutoBallGather())
+                //  .whenPressed(commandFactory.startAutoBallGather())
+                //  .whenReleased(commandFactory.stopAutoBallGather())
+                .whenPressed(null)
                  .add();
 
         operatorPanelManager.addButton(RobotConstants.BUTTONS.HOOD_FORWARD_ADJUST)
@@ -54,13 +55,15 @@ public class OperatorInterface {
                 .add();
 
         operatorPanelManager.addButton(RobotConstants.BUTTONS.ELEVATOR_DOWN)
-                .whenPressed(commandFactory.elevatorDown())
-                .whenReleased(commandFactory.elevatorStop())
+                // .whenPressed(commandFactory.elevatorDown())
+                // .whenReleased(commandFactory.elevatorStop())
+                .whenPressed(null)
                 .add();
 
         operatorPanelManager.addButton(RobotConstants.BUTTONS.ELEVATOR_UP)
-                .whenPressed(commandFactory.elevatorUp())
-                .whenReleased(commandFactory.elevatorStop())
+                // .whenPressed(commandFactory.elevatorUp())
+                // .whenReleased(commandFactory.elevatorStop())
+                .whenPressed(null)
                 .add();
 
         operatorPanelManager.addButton(RobotConstants.BUTTONS.TURRET_LEFT_ADJUST)
@@ -104,19 +107,23 @@ public class OperatorInterface {
 
 
         joystickManager.addButton(5)
-               .whenPressed(commandFactory.snapToYawCommand( -90, true))
+        //        .whenPressed(commandFactory.snapToYawCommand( -90, true))
+        .whenPressed(null)
                .add();
 
         joystickManager.addButton(6)
-               .whenPressed(commandFactory.snapToYawCommand( 90, true))
+        //        .whenPressed(commandFactory.snapToYawCommand( 90, true))
+        .whenPressed(null)
                .add();
 
         joystickManager.addButton(7)
-                .whenPressed(commandFactory.startDriveLogging())
+                // .whenPressed(commandFactory.startDriveLogging())
+                .whenPressed(null)
                 .add();
 
         joystickManager.addButton(8)
-                .whenPressed(commandFactory.endDriveLogging())
+                // .whenPressed(commandFactory.endDriveLogging())
+                .whenPressed(null)
                 .add();
 
         joystickManager.addButton(9)

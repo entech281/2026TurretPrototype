@@ -1,8 +1,9 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import frc.robot.fake.TalonAdapter;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.RobotConstants;
 import static frc.robot.RobotConstants.*;
@@ -10,7 +11,7 @@ import frc.robot.controllers.*;
 
 public class IntakeSubsystem extends EntechSubsystem {
 
-    private WPI_TalonSRX intakeMotor;
+    private TalonAdapter intakeMotor;
     private TalonSpeedController intakeMotorController;
     private DoubleSolenoid deployIntakeSolenoids;
     private DoubleSolenoid.Value currentStateIntake;
@@ -22,12 +23,12 @@ public class IntakeSubsystem extends EntechSubsystem {
     @Override
     public void initialize() {
 
-        intakeMotor = new WPI_TalonSRX(RobotConstants.CAN.INTAKE_MOTOR);
-        intakeMotorController = new TalonSpeedController(intakeMotor, MOTOR_SETTINGS.INTAKE,false);
+    intakeMotor = new TalonAdapter(RobotConstants.CAN.INTAKE_MOTOR);
+    intakeMotorController = new TalonSpeedController(intakeMotor, MOTOR_SETTINGS.INTAKE,false);
         intakeMotorController.configure();
         intakeMotorController.setDesiredSpeed(0);
 
-        deployIntakeSolenoids = new DoubleSolenoid(RobotConstants.CAN.FORWARD, RobotConstants.CAN.REVERSE);
+    deployIntakeSolenoids = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, RobotConstants.CAN.FORWARD, RobotConstants.CAN.REVERSE);
         currentStateIntake = DoubleSolenoid.Value.kReverse;
         updateIntakeSolenoidPosition();
     }

@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import frc.robot.logger.DataLogger;
 import frc.robot.logger.DataLoggerFactory;
-import frc.robot.preferences.AutoCommandFactory;
+// import frc.robot.preferences.AutoCommandFactory;
 import frc.robot.preferences.SmartDashboardPathChooser;
 import frc.robot.commands.CommandFactory;
 import frc.robot.subsystems.SubsystemManager;
@@ -40,10 +40,10 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        if(RobotConstants.AVAILABILITY.PNEUMATICS_MOUNTED){
-            compressor = new Compressor(RobotConstants.CAN.PCM_ID);
-            compressor.start();
-        }
+        // if(RobotConstants.AVAILABILITY.PNEUMATICS_MOUNTED){
+        //     compressor = new Compressor(RobotConstants.CAN.PCM_ID);
+        //     compressor.start();
+        // }
         
         DataLoggerFactory.configureForMatch();
         this.logger = DataLoggerFactory.getLoggerFactory().createDataLogger("Robot Main Loop");
@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
     public void teleopInit() {
         SmartDashboard.putNumber("delay1", 0.25);
         SmartDashboard.putNumber("delay2", 0.05);
-        subsystemManager.getNavXSubsystem().zeroYawMethod(false);
+    // NavX removed for simplified build; skip zeroing.
         if (autoCommand != null) {
             autoCommand.cancel();
         }
@@ -89,14 +89,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void autonomousInit() {
-        autoCommand = new AutoCommandFactory(commandFactory).getSelectedCommand(optionChooser.getSelected());
+        // autoCommand = new AutoCommandFactory(commandFactory).getSelectedCommand(optionChooser.getSelected());
         CommandScheduler.getInstance().schedule(autoCommand);
-        subsystemManager.getDriveSubsystem().setDefaultCommand(new StopDrivingCommand(subsystemManager.getDriveSubsystem()));
     }
 
     @Override
     public void autonomousPeriodic() {
-        subsystemManager.getDriveSubsystem().feedWatchDog();
 
     }
 

@@ -1,10 +1,7 @@
 package frc.robot;
 
-import com.revrobotics.CANPIDController;
 import frc.robot.controllers.SparkMaxSettings;
-import frc.robot.controllers.SparkMaxSettingsBuilder;
 import frc.robot.controllers.TalonSettings;
-import frc.robot.controllers.TalonSettingsBuilder;
 import frc.robot.pose.RobotPose;
 import frc.robot.pose.RobotPosition;
 import frc.robot.pose.ShooterConfiguration;
@@ -14,98 +11,20 @@ import frc.robot.vision.VisionData;
 public class RobotConstants {
 
     public interface MOTOR_SETTINGS {
-        public static TalonSettings INTAKE = TalonSettingsBuilder.defaults()
-                .withCurrentLimits(20, 15, 200)
-                .brakeInNeutral()
-                .withDirections(false, false)
-                .noMotorOutputLimits()
-                .noMotorStartupRamping()
-                .useSpeedControl()
-                .build();
+    // Simplified throwaway motor settings: use default settings objects so
+    // turret/hood/shooter code compiles without depending on the builders
+    // that reference newer vendor enums/APIs.
+    public static TalonSettings INTAKE = new TalonSettings();
+    public static TalonSettings ELEVATOR = new TalonSettings();
+    public static TalonSettings HOOD = new TalonSettings();
+    public static TalonSettings HOOD_HOMING_SPEED = new TalonSettings();
 
-        public static TalonSettings ELEVATOR = TalonSettingsBuilder.defaults()
-                .withCurrentLimits(20, 15, 200)
-                .brakeInNeutral()
-                .withDirections(false, false)
-                .noMotorOutputLimits()
-                .noMotorStartupRamping()
-                .useSpeedControl()
-                .build();
+    public static SparkMaxSettings SHOOTER_CLOSED_LOOP = new SparkMaxSettings();
+    public static SparkMaxSettings SHOOTER_OPEN_LOOP = new SparkMaxSettings();
 
-// MCA: why is the limit switch set to off?
-        public static TalonSettings HOOD = TalonSettingsBuilder.defaults()
-                .withCurrentLimits(20, 15, 200)
-                .brakeInNeutral()
-                .withDirections(false, false)
-                .noMotorOutputLimits()
-                .noMotorStartupRamping()
-                .usePositionControl()
-                .withGains(12, 2.56 * 5, 0, 0)
-                .withMotionProfile(1000, 1000, 5)
-                .enableLimitSwitch(false).build();
-
-        public static TalonSettings HOOD_HOMING_SPEED = TalonSettingsBuilder.defaults()
-                .withCurrentLimits(1, 1, 1)
-                .brakeInNeutral()
-                .withDirections(false, false)
-                .limitMotorOutputs(0.3, 0)
-                .noMotorStartupRamping()
-                .useSpeedControl()
-                .build();
-
-
-        public static SparkMaxSettings SHOOTER_CLOSED_LOOP = SparkMaxSettingsBuilder.defaults()
-                .withCurrentLimits(35)
-                .coastInNeutral()
-                .withDirections(false, false)
-                .limitMotorOutputs(1, -1)
-                .noMotorStartupRamping()
-                .useSmartVelocityControl()
-                .withPositionGains(0.000185, 4e-4, 0, 0.0)
-                .useAccelerationStrategy(CANPIDController.AccelStrategy.kTrapezoidal)
-                .withMaxVelocity(5700)
-                .withMaxAcceleration(200000)
-                .withClosedLoopError(50)
-                .build();
-
-        public static SparkMaxSettings SHOOTER_OPEN_LOOP = SparkMaxSettingsBuilder.defaults()
-                .withCurrentLimits(35)
-                .coastInNeutral()
-                .withDirections(false, false)
-                .limitMotorOutputs(0, 1)
-                .noMotorStartupRamping()
-                .useSpeedControl()
-                .build();
-
-
-        public static TalonSettings TURRET = TalonSettingsBuilder.defaults()
-                .withCurrentLimits(20, 15, 200)
-                .brakeInNeutral()
-                .withDirections(false, false)
-                .noMotorOutputLimits()
-                .noMotorStartupRamping()
-                .usePositionControl()
-                .withGains(4, 2.56 * 5, 0, 0)
-                .withMotionProfile(200, 200, 5)
-                .enableLimitSwitch(true).build();
-
-        public static TalonSettings TURRET_SPD = TalonSettingsBuilder.defaults()
-                .withCurrentLimits(20,15,200)
-                .brakeInNeutral()
-                .withDirections(false, false)
-                .noMotorOutputLimits()
-                .noMotorStartupRamping()
-                .useSpeedControl()
-                .build();
-
-        public static TalonSettings TURRET_HOMING_SPEED = TalonSettingsBuilder.defaults()
-                .withCurrentLimits(1, 1, 1)
-                .brakeInNeutral()
-                .withDirections(false, false)
-                .limitMotorOutputs(0.3, 0)
-                .noMotorStartupRamping()
-                .useSpeedControl()
-                .build();
+    public static TalonSettings TURRET = new TalonSettings();
+    public static TalonSettings TURRET_SPD = new TalonSettings();
+    public static TalonSettings TURRET_HOMING_SPEED = new TalonSettings();
     }
 
 

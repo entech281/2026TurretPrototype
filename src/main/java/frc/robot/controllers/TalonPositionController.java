@@ -1,7 +1,7 @@
 package frc.robot.controllers;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import frc.robot.fake.TalonAdapter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TalonPositionController extends BaseTalonController implements PositionController {
@@ -25,7 +25,7 @@ public class TalonPositionController extends BaseTalonController implements Posi
         talon.set(settings.controlMode, correctDirection(desiredPosition));
     }
 
-    public TalonPositionController(TalonSRX talon, TalonSettings settings, boolean reversed) {
+    public TalonPositionController(TalonAdapter talon, TalonSettings settings, boolean reversed) {
         super(talon, settings,reversed);
     }
 

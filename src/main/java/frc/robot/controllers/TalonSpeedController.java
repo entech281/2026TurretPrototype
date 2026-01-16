@@ -1,11 +1,11 @@
 package frc.robot.controllers;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import frc.robot.fake.TalonAdapter;
 
 public class TalonSpeedController extends BaseTalonController implements SpeedController {
 
-    public TalonSpeedController(TalonSRX talon, TalonSettings settings, boolean reversed) {
+    public TalonSpeedController(TalonAdapter talon, TalonSettings settings, boolean reversed) {
         super(talon, settings,reversed);
     }
     private double desiredSpeed = 0.0;

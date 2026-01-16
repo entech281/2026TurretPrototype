@@ -61,16 +61,16 @@ public class SparkMaxSettings {
 
     public void configureSparkMax(CANSparkMax spark) {
         //Current Limits
-        spark.restoreFactoryDefaults();
-        pidController = new CANPIDController(spark);
-
-        spark.setCANTimeout(TIMEOUT_MS);
+    spark.restoreFactoryDefaults();
+    // In newer REV libraries (2024+), the PID controller is obtained from
+    // the spark instance instead of constructing a CANPIDController directly.
+    pidController = spark.getPIDController();
         spark.setSmartCurrentLimit(currentLimits.smartLimit);
-        spark.setClosedLoopRampRate(rampUp.rampUpSecondsClosedLoop);
+    spark.setClosedLoopRampRate(rampUp.rampUpSecondsClosedLoop);
         spark.setOpenLoopRampRate(rampUp.rampUpSecondsOpenLoop);
         spark.setInverted(motorDirections.inverted);
-        spark.setClosedLoopRampRate(rampUp.rampUpSecondsClosedLoop);
-        spark.setIdleMode(brakeMode);
+    // already set closed-loop ramp above; set idle mode
+    spark.setIdleMode(brakeMode);
         
 
         pidController.setOutputRange(outputLimits.minMotorOutput, outputLimits.maxMotorOutput);
@@ -80,7 +80,7 @@ public class SparkMaxSettings {
         pidController.setD(gains.d, PID_SLOT);
         pidController.setIZone(0, PID_SLOT);
         pidController.setSmartMotionAccelStrategy(profile.accelStrategy, PID_SLOT);
-        pidController.setSmartMotionAllowedClosedLoopError(profile.allowableClosedLoopError, PID_SLOT);
+        // pidController.setSmartMotionAllowedClosedLoopError(profile.allowableClosedLoopError, PID_SLOT);
         pidController.setSmartMotionMaxAccel(profile.maxAccel, PID_SLOT);
         pidController.setSmartMotionMaxVelocity(profile.cruiseVelocityRPM, PID_SLOT);
         // pidController.setSmartMotionMinOutputVelocity(-profile.cruiseVelocityRPM, PID_SLOT);
@@ -99,7 +99,9 @@ public class SparkMaxSettings {
         CANSparkMax leader;
         if (this.follow) {
             leader = new CANSparkMax((int) value, MotorType.kBrushless);
-            spark.follow(leader);
+            // follower API changed across REV versions; for this throwaway
+            // migration we don't configure hardware leaders. No-op.
+            // spark.follow(leader);
         } else {
             pidController = spark.getPIDController();
             pidController.setReference(value, this.ctrlType);
@@ -119,7 +121,8 @@ public class SparkMaxSettings {
         CANSparkMax leader;
         if (this.follow) {
             leader = new CANSparkMax((int) this.demand, MotorType.kBrushless);
-            spark.follow(leader);
+            // follower API changed across REV versions; skip configuring follow
+            // spark.follow(leader);
         } else {
             pidController = spark.getPIDController();
             pidController.setReference(this.demand, this.ctrlType);

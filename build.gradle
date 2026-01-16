@@ -75,6 +75,33 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
+// Add vendor maven repositories (REV and PhotonVision) so explicit vendor
+// coordinates can be resolved when added below.
+repositories {
+    maven {
+        url 'https://maven.revrobotics.com/'
+    }
+    maven {
+        url 'https://maven.photonvision.org/repository/internal'
+    }
+    mavenCentral()
+}
+
+// Explicit vendor dependencies to ensure compile-time availability of
+// vendor-provided classes (2026-compatible coordinates from vendordeps).
+dependencies {
+    // REV Robotics (from vendordeps/REVLib.json)
+    implementation 'com.revrobotics.frc:REVLib-java:2026.0.1'
+
+    // PhotonVision (from vendordeps/photonlib.json)
+    implementation 'org.photonvision:photonlib-java:v2026.1.1-rc-3'
+
+    // Note: CTRE, navX and Pixy2 are intentionally not added here because
+    // their artifact coordinates differ between teams and vendors; if you
+    // want those resolved automatically, either add the correct Maven
+    // coordinates here or let GradleRIO pull them from vendordeps metadata.
+}
+
 test {
     useJUnitPlatform()
     systemProperty 'junit.jupiter.extensions.autodetection.enabled', 'true'

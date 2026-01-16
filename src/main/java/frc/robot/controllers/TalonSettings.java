@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import frc.robot.fake.TalonAdapter;
 
 /**
  * This class holds talon settings. Sometimes you need to re-program a Talon on
@@ -71,54 +71,54 @@ public class TalonSettings {
     /**
      * Copies the settings to the talon.
      */
-    public void configureTalon(TalonSRX talon) {
+    public void configureTalon(TalonAdapter talon) {
 
         // hard coded stuff that's not configurable
-        talon.selectProfileSlot(PROFILE_SLOT, PID_SLOT);
-        talon.setSelectedSensorPosition(0, PID_SLOT, TIMEOUT_MS);
-        talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, PID_SLOT, 0);
+    talon.selectProfileSlot(PROFILE_SLOT, PID_SLOT);
+    talon.setSelectedSensorPosition(0, PID_SLOT, TIMEOUT_MS);
+    talon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, PID_SLOT, 0);
 
-        talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, this.framePeriods.pidMilliseconds,
-                TIMEOUT_MS);
-        talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, this.framePeriods.motionMagicMilliseconds,
-                TIMEOUT_MS);
+    talon.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, this.framePeriods.pidMilliseconds,
+        TIMEOUT_MS);
+    talon.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, this.framePeriods.motionMagicMilliseconds,
+        TIMEOUT_MS);
 
         talon.setSensorPhase(this.motorDirections.sensorPhase);
         talon.setInverted(this.motorDirections.inverted);
 
-        talon.configNominalOutputForward(this.outputLimits.minMotorOutputForward, TIMEOUT_MS);
-        talon.configNominalOutputReverse(this.outputLimits.minMotorOutputBackward, TIMEOUT_MS);
-        talon.configPeakOutputForward(this.outputLimits.maxMotorOutputForward, TIMEOUT_MS);
-        talon.configPeakOutputReverse(this.outputLimits.maxMotorOutputBackward, TIMEOUT_MS);
+    talon.configNominalOutputForward(this.outputLimits.minMotorOutputForward, TIMEOUT_MS);
+    talon.configNominalOutputReverse(this.outputLimits.minMotorOutputBackward, TIMEOUT_MS);
+    talon.configPeakOutputForward(this.outputLimits.maxMotorOutputForward, TIMEOUT_MS);
+    talon.configPeakOutputReverse(this.outputLimits.maxMotorOutputBackward, TIMEOUT_MS);
 
-        talon.configPeakCurrentLimit(this.currentLimits.instantaneousPeak, TIMEOUT_MS);
-        talon.configPeakCurrentDuration(this.currentLimits.continuousPeakMilliseconds, TIMEOUT_MS);
-        talon.configContinuousCurrentLimit(this.currentLimits.continuousPeak, TIMEOUT_MS);
+    talon.configPeakCurrentLimit(this.currentLimits.instantaneousPeak, TIMEOUT_MS);
+    talon.configPeakCurrentDuration(this.currentLimits.continuousPeakMilliseconds, TIMEOUT_MS);
+    talon.configContinuousCurrentLimit(this.currentLimits.continuousPeak, TIMEOUT_MS);
         talon.enableCurrentLimit(true);
 
         talon.setNeutralMode(this.brakeMode);
-        talon.configSelectedFeedbackSensor(this.feedbackDevice, PID_SLOT, TIMEOUT_MS);
+    talon.configSelectedFeedbackSensor(this.feedbackDevice, PID_SLOT, TIMEOUT_MS);
 
-        talon.configClosedloopRamp(this.rampUp.rampUpSecondsClosedLoop, TIMEOUT_MS);
-        talon.configOpenloopRamp(this.rampUp.rampUpSecondsOpenLoop, TIMEOUT_MS);
-        talon.configNeutralDeadband(this.rampUp.neutralDeadband, TIMEOUT_MS);
+    talon.configClosedloopRamp(this.rampUp.rampUpSecondsClosedLoop, TIMEOUT_MS);
+    talon.configOpenloopRamp(this.rampUp.rampUpSecondsOpenLoop, TIMEOUT_MS);
+    talon.configNeutralDeadband(this.rampUp.neutralDeadband, TIMEOUT_MS);
 
-        talon.config_kF(PID_SLOT, this.gains.f, TIMEOUT_MS);
-        talon.config_kP(PID_SLOT, this.gains.p, TIMEOUT_MS);
-        talon.config_kI(PID_SLOT, this.gains.i, TIMEOUT_MS);
-        talon.config_kD(PID_SLOT, this.gains.d, TIMEOUT_MS);
+    talon.config_kF(PID_SLOT, this.gains.f, TIMEOUT_MS);
+    talon.config_kP(PID_SLOT, this.gains.p, TIMEOUT_MS);
+    talon.config_kI(PID_SLOT, this.gains.i, TIMEOUT_MS);
+    talon.config_kD(PID_SLOT, this.gains.d, TIMEOUT_MS);
 
-        talon.configMotionCruiseVelocity(this.profile.cruiseVelocityEncoderClicksPerSecond, TIMEOUT_MS);
-        talon.configMotionAcceleration(this.profile.accelerationEncoderClicksPerSecond2, TIMEOUT_MS);
-        talon.configAllowableClosedloopError(PID_SLOT, this.profile.allowableClosedLoopError, TIMEOUT_MS);
-        talon.set(this.controlMode, 0);
+    talon.configMotionCruiseVelocity(this.profile.cruiseVelocityEncoderClicksPerSecond, TIMEOUT_MS);
+    talon.configMotionAcceleration(this.profile.accelerationEncoderClicksPerSecond2, TIMEOUT_MS);
+    talon.configAllowableClosedloopError(PID_SLOT, this.profile.allowableClosedLoopError, TIMEOUT_MS);
+    talon.set(this.controlMode, 0);
         if(limitSwitches){
-            talon.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
-                    0);
-            talon.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
-                    0);
+        talon.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
+            0);
+        talon.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen,
+            0);
 
-            talon.overrideLimitSwitchesEnable(true);
+        talon.overrideLimitSwitchesEnable(true);
         }
     }
 
@@ -128,11 +128,11 @@ public class TalonSettings {
      *
      * @param talon
      */
-    public void setMode(TalonSRX talon, double settingValue) {
+    public void setMode(TalonAdapter talon, double settingValue) {
         talon.set(this.controlMode, settingValue);
     }
 
-    public void setMode(TalonSRX talon) {
+    public void setMode(TalonAdapter talon) {
         talon.set(this.controlMode, this.demand);
     }
     

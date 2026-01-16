@@ -61,7 +61,7 @@ public class ByteUpdatedCameraServer {
     
     private void putFrameFromBytes(byte[] frame){  
         try{
-            Mat m = Imgcodecs.imdecode(new MatOfByte(frame), Imgcodecs.CV_LOAD_IMAGE_UNCHANGED);
+            Mat m = Imgcodecs.imdecode(new MatOfByte(frame), Imgcodecs.IMREAD_UNCHANGED);
             if ( m != null && m.width() == width && m.height() == height){
                 counter++;
                 source.putFrame(m); 
