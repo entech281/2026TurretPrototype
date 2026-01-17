@@ -38,7 +38,7 @@ public class OperatorInterface {
 
         joystickManager.addButton(2)
                 .whenPressed(commandFactory.snapToTargetVision())
-                .add();
+                .add(); 
 
         operatorPanelManager.addButton(RobotConstants.BUTTONS.DEPLOY_INTAKE)
                 //  .whenPressed(commandFactory.startAutoBallGather())

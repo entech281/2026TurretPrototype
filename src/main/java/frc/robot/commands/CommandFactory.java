@@ -76,7 +76,7 @@ public class CommandFactory {
     // ********** END OF ELEVATOR AND INTAKE COMMANDS
 
     public Command snapToTargetVision(){
-        return new SnapToVisionTargetCommand(sm.getTurretSubsystem(), sm);
+        return new SnapToVisionTargetCommand(sm.getTurretSubsystem());
     }
 
     public Command autoTurretAdjust() {
@@ -142,13 +142,13 @@ public class CommandFactory {
     // public Command stopDriving(){
     //     return new InstantCommand(() -> sm.getDriveSubsystem().stopDriving(), sm.getDriveSubsystem());
     // }
-
+ 
     public Command snapAndShootCommand(){
         return snapToVisionTargetCommand()
                 .alongWith(fireCommand());
     }
     public Command snapToVisionTargetCommand(){
-        return new SnapToVisionTargetCommand(sm.getTurretSubsystem(),sm);
+    return new SnapToVisionTargetCommand(sm.getTurretSubsystem());
     }
     // public Command snapToYawCommand(double desiredAngle, boolean relative){
     //     return new SnapToYawCommand(sm.getDriveSubsystem(),  desiredAngle,  relative, sm );
@@ -219,7 +219,7 @@ public class CommandFactory {
         BooleanSupplier shooterOn = () -> sm.getShooterSubsystem().isShooterOn();
         return new ParallelCommandGroup(
             new ConditionalCommand(new AutoHoodShooterAdjust(sm.getShooterSubsystem(), sm.getHoodSubsystem(), sm), stopShooter(), shooterOn)
-            , new SnapToVisionTargetCommand(sm.getTurretSubsystem(), sm)
+            , new SnapToVisionTargetCommand(sm.getTurretSubsystem())
         );
     }
 

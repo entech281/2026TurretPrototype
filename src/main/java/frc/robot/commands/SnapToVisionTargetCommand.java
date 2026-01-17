@@ -7,10 +7,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.controller.PIDController;
 import frc.robot.RobotConstants;
-import frc.robot.pose.PoseSource;
-import frc.robot.pose.RobotPose;
 import frc.robot.subsystems.TurretSubsystem;
 import frc.robot.utils.PIDControlOutputProcessor;
+import frc.robot.vision.PhotonTurretAimer;
+
+import java.util.OptionalDouble;
 
 /**
  *
@@ -22,15 +23,15 @@ public class SnapToVisionTargetCommand extends EntechCommand {
     private PIDController controller;
     private double offset;
     private double output = 0.0;
-    private PoseSource poseSource;
+    private PhotonTurretAimer aimer;
     public static final double TIMEOUT_SECONDS=2;
     private int count = 0;
     private double TOLERANCE = 5;
 
-    public SnapToVisionTargetCommand(TurretSubsystem turret, PoseSource poseSource) {
+    public SnapToVisionTargetCommand(TurretSubsystem turret) {
         super(turret,TIMEOUT_SECONDS);
         this.turret = turret;
-        this.poseSource = poseSource;
+        this.aimer = new PhotonTurretAimer(RobotConstants.DEFAULTS.VISION.CAMERA_NAME, RobotConstants.DEFAULTS.VISION.APRILTAG_ID);
         this.controller = new PIDController(RobotConstants.PID.AUTO_TURN.P,
             RobotConstants.PID.AUTO_TURN.I,
             RobotConstants.PID.AUTO_TURN.D);
@@ -43,12 +44,13 @@ public class SnapToVisionTargetCommand extends EntechCommand {
 
     @Override
     public void execute(){
-        RobotPose rp = poseSource.getRobotPose();
-        if(rp.getVisionDataValidity()){
-            offset = rp.getTargetLateralOffset();
+        OptionalDouble yawOpt = aimer.getYawOffsetDegrees();
+        if (yawOpt.isPresent()) {
+            offset = yawOpt.getAsDouble();
             output = controller.calculate(offset);
             output = PIDControlOutputProcessor.constrainWithMinBounds(output, 0.2, 0.0);
             turret.turnTurret(output);
+        }
 /*
             if (offset < -TOLERANCE){
                 turret.adjustTurretClockwise();
@@ -60,8 +62,6 @@ public class SnapToVisionTargetCommand extends EntechCommand {
                 turret.reset();
             }
 */
-        }
-
     }
 
     @Override
@@ -71,7 +71,8 @@ public class SnapToVisionTargetCommand extends EntechCommand {
         } else {
             count = 0;
         }
-        return count > 3 || !poseSource.getRobotPose().getVisionDataValidity();
+        boolean hasTarget = aimer.getYawOffsetDegrees().isPresent();
+        return count > 3 || !hasTarget;
     }
 
 }
